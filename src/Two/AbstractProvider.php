@@ -62,6 +62,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $scopes = [];
 
     /**
+     * The resources being requested.
+     *
+     * @var array
+     */
+    protected $resources = [];
+
+    /**
      * The separating character for the requested scopes.
      *
      * @var string
@@ -169,7 +176,7 @@ abstract class AbstractProvider implements ProviderContract
         $fields = [
             'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
             //'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-            'resource' => 'urn:ms-drs:adfs.wambi.com',
+            'resource' => $this->formatScopes($this->getResources(), $this->scopeSeparator),
             'response_type' => 'code',
         ];
 
@@ -189,6 +196,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function formatScopes(array $scopes, $scopeSeparator)
     {
+        if(count($scopes) == 1 ) return $scopes[0];
         return implode($scopeSeparator, $scopes);
     }
 
@@ -281,6 +289,14 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Set resouces
+     */
+    public function resources(array $resources){
+        $this->resources = array_unique($resources);
+        return $this;
+    }
+
+    /**
      * Set the scopes of the requested access.
      *
      * @param  array  $scopes
@@ -301,6 +317,16 @@ abstract class AbstractProvider implements ProviderContract
     public function getScopes()
     {
         return $this->scopes;
+    }
+
+    /**
+     * Get the current scopes.
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        return $this->resources;
     }
 
     /**
@@ -339,7 +365,6 @@ abstract class AbstractProvider implements ProviderContract
     public function setHttpClient(Client $client)
     {
         $this->httpClient = $client;
-
         return $this;
     }
 

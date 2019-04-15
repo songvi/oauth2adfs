@@ -4,12 +4,8 @@ namespace Laravel\Socialite;
 
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
-use Laravel\Socialite\One\TwitterProvider;
-use Laravel\Socialite\One\BitbucketProvider;
+
 use Laravel\Socialite\Two\AdfsProvider;
-use League\OAuth1\Client\Server\Twitter as TwitterServer;
-use League\OAuth1\Client\Server\Bitbucket as BitbucketServer;
-use League\OAuth1\Client\Server\AdfsServer as AdfsServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
 {
@@ -41,6 +37,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $adfsProvider->adfs_url = $config['adfs_url'];
         $adfsProvider->jwt_pub_key_file = $config['jwt_pub_key_file'];
         $adfsProvider->jwt_issuer = $config['jwt_issuer'];
+        $adfsProvider->resources($config['resources']);
 
         return $adfsProvider;
     }
