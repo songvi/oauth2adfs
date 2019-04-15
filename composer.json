@@ -1,5 +1,5 @@
 {
-    "name": "laravel/socialiteadfs",
+    "name": "songvi/socialiteadfs",
     "description": "Laravel wrapper around OAuth 2 libraries for ADFS",
     "keywords": ["oauth", "laravel"],
     "license": "MIT",
