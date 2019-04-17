@@ -89,6 +89,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected $stateless = false;
 
+    protected $verifyCert = true;
     /**
      * Create a new provider instance.
      *
@@ -256,10 +257,18 @@ abstract class AbstractProvider implements ProviderContract
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            $postKey => $this->getTokenFields($code),
-        ]);
+        if ($this->verifyCert){
+            $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+                'headers' => ['Accept' => 'application/json'],
+                $postKey => $this->getTokenFields($code),
+            ]);
+        }else{
+            $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+                'headers' => ['Accept' => 'application/json'],
+                'verify' =>false,
+                $postKey => $this->getTokenFields($code),
+            ]);
+        }
 
         return json_decode($response->getBody(), true);
     }
@@ -353,6 +362,7 @@ abstract class AbstractProvider implements ProviderContract
             $this->httpClient = new Client();
         }
 
+
         return $this->httpClient;
     }
 
@@ -434,5 +444,13 @@ abstract class AbstractProvider implements ProviderContract
         $this->parameters = $parameters;
 
         return $this;
+    }
+
+    /**
+     * @param bool $check
+     *
+     */
+    public function verifyCertificate($check = false){
+        $this->verifyCert = $check;
     }
 }

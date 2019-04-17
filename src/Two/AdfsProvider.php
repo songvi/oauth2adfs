@@ -107,8 +107,9 @@ class AdfsProvider extends AbstractProvider implements ProviderInterface
         // Map claims to user array
         $user["employeeid"] = $token->getClaim("employeeid");
         $user["clockid"] = $token->getClaim("employeeid");
-        $user["DisplayName"] = $token->getClaim("DisplayName");
+        $user["displayname"] = $token->getClaim("displayname");
         $user["email"] = $token->getClaim("Email");
+        $user["ext_attrs"] = $token->getClaims();
 
         return  $user;
     }
@@ -122,9 +123,13 @@ class AdfsProvider extends AbstractProvider implements ProviderInterface
         $retUser = (new User())->setRaw($user)->map([
             'id' => Arr::get($user, 'clockid'),
             'email' => Arr::get($user, 'email'),
-            'name' => Arr::get($user, 'DisplayName')
+            'name' => Arr::get($user, 'displayname')
         ]);
 
         return $retUser;
+    }
+
+    public function setSSLOptions(array $options){
+        //$this->ht
     }
 }
