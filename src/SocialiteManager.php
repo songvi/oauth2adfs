@@ -43,6 +43,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $adfsProvider->jwt_issuer = $config['jwt_issuer'];
         $adfsProvider->resources($config['resources']);
         $adfsProvider->verifyCertificate($config['verifyCert']);
+        $adfsProvider->auto_redirect = $config['auto_redirect'];
 
         return $adfsProvider;
     }
@@ -76,7 +77,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
             'jwt_aud' => $config['jwt_aud'],
             'adfs_url' => $config['adfs_url'],
             'jwt_pub_key_file' => $config['jwt_pub_key_file'],
-            'jwt_issuer' => $config['jwt_issuer']
+            'jwt_issuer' => $config['jwt_issuer'],
+            'verifyCert' => $config['verifyCert'],
+            'auto_redirect' => $config['auto_redirect']
+
         ], $config);
     }
 

@@ -45,6 +45,12 @@ class AdfsProvider extends AbstractProvider implements ProviderInterface
     public $jw_issuer = '';
 
     /**
+     * Add "login with" button or redirect automatically
+     *
+     */
+    public $auto_redirect = true;
+
+    /**
      * The scopes being requested.
      *
      * @var array
